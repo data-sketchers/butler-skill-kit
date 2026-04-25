@@ -5,6 +5,11 @@
 <h1 align="center">butler-skill-kit</h1>
 
 <p align="center">
+  <a href="README.md"><strong>English</strong></a> ·
+  <a href="README-KO.md">한국어</a>
+</p>
+
+<p align="center">
   <strong>Failover orchestration for Claude Code + Codex CLI agents.</strong><br/>
   When one rate-limits, the other picks up — same worktree, same context, same task.
 </p>
@@ -249,7 +254,7 @@ butler-skill-kit is the plumbing. If you want to define a *team* of agents — P
 
 ## Status
 
-`v0.1.0-alpha` — extracted from a single production setup (D-SKET Webbuilder Phase 1, 2026-04-24). Not battle-tested by the broader community yet. **Bug reports welcome.**
+`v0.1.0-alpha` — extracted from a single production setup (an internal Data Sketchers production setup, 2026-04-24). Not battle-tested by the broader community yet. **Bug reports welcome.**
 
 Tested on:
 

@@ -1,6 +1,6 @@
 # Pain fixes — Phase 1 에서 찾은 9가지 함정과 대응
 
-2026-04-24 D-SKET Webbuilder Phase 1 세팅 중 발견. butler-kit 스크립트에 모두 반영됨.
+2026-04-24 an internal Data Sketchers production setup 세팅 중 발견. butler-kit 스크립트에 모두 반영됨.
 
 ## 1. Claude Code trust 다이얼로그
 
@@ -64,7 +64,7 @@ tmux send-keys -t "$SESSION" Enter
 **증상**: hermes 프로파일명을 tmux 세션명에 그대로 쓰면 관리 포인트 혼재.
 
 **해결**: 네이밍 규칙 분리:
-- hermes 프로파일: `dsket-webbuilder` (Discord/Telegram 봇 연동)
+- hermes 프로파일: `your-monorepo` (Discord/Telegram 봇 연동)
 - tmux 세션: `builder-<role>-<model>` (순수 tmux 콘솔)
 
 ## 9. 재부팅 복구

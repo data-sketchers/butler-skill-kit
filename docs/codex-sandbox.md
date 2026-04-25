@@ -27,7 +27,7 @@ trust_level = "trusted"
 
 ```bash
 tmux kill-session -t builder-be-codex
-kit-codex-session.sh builder-be-codex ~/workspace/dsket-webbuilder-be
+kit-codex-session.sh builder-be-codex ~/workspace/your-be-worktree
 ```
 
 ## 로그인 상태 확인
@@ -42,14 +42,14 @@ cat ~/.codex/auth.json | head -10
 
 ```toml
 # 전체 홈디렉토리 trust (개발 환경에서 편함)
-[projects."/home/sinbum"]
+[projects."$HOME"]
 trust_level = "trusted"
 
 # 특정 프로젝트만 trust
-[projects."/home/sinbum/ai-workspace/dsket-webbuilder"]
+[projects."$HOME/ai-workspace/your-monorepo"]
 trust_level = "trusted"
 
-[projects."/home/sinbum/ai-workspace/dsket-webbuilder-be"]
+[projects."$HOME/ai-workspace/your-be-worktree"]
 trust_level = "trusted"
 
 # UI 설정 (tui 모델 NUX 등)

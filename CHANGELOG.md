@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Initial public release. Extracted from internal Data Sketchers production setup
-  (D-SKET Webbuilder Phase 1, 2026-04-24).
+  (an internal Data Sketchers production setup, 2026-04-24).
 - 7 core scripts in `scripts/`:
   - `kit-bootstrap.sh` — environment readiness check
   - `kit-session-ensure.sh` — idempotent tmux session spawner (claude or codex)

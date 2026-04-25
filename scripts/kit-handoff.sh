@@ -7,7 +7,7 @@
 #   kit-handoff.sh <session_prefix> codex-to-claude <workdir>
 #
 # 예:
-#   kit-handoff.sh builder-be claude-to-codex ~/ai-workspace/dsket-webbuilder-be
+#   kit-handoff.sh builder-be claude-to-codex ~/path/to/your-be-worktree
 #
 # 세션 네이밍 규칙:
 #   <prefix>-claude / <prefix>-codex
