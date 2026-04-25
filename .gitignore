@@ -1,0 +1,26 @@
+# Logs
+*.log
+.logs/
+
+# Local state
+.agent-state.md
+scrum-snapshot.md
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Backup
+*.bak
+*.bak.*
+
+# Local secrets
+*.env
+*.env.local
+credentials/

@@ -1,0 +1,58 @@
+# Codex CLI — sandbox / trust 설정 가이드
+
+Codex CLI (OpenAI) 는 기본적으로 sandbox 권한이 제한적. 파일 쓰기·쉘 실행에서 interactive 프롬프트가 뜰 수 있음. 자율 에이전트로 돌리려면 워크트리별 trust 설정 필요.
+
+## config.toml 위치
+
+`~/.codex/config.toml`
+
+## 워크트리별 trust 등록
+
+```toml
+[projects."/absolute/path/to/workdir"]
+trust_level = "trusted"
+```
+
+- 경로는 절대경로 (tilde `~` 안 됨. `$HOME` expand 된 실제 경로)
+- trust_level 값: `"trusted"` (권장, 자율 실행) | `"untrusted"` (default, 프롬프트 유발)
+- 여러 워크트리 각각 따로 등록 필요
+
+## butler-kit 자동 등록
+
+`kit-codex-session.sh` 가 세션 기동 전 해당 워크트리 trust 를 자동 추가 (멱등).
+
+## 세션 적용 시점 주의
+
+**config.toml 변경은 *새로 시작하는 세션*에만 적용됨.** 이미 실행 중인 codex 세션은 config 업데이트 후에도 sandbox 프롬프트 계속 뜰 수 있음. 이 경우 세션 종료 후 재시작 필요.
+
+```bash
+tmux kill-session -t builder-be-codex
+kit-codex-session.sh builder-be-codex ~/workspace/dsket-webbuilder-be
+```
+
+## 로그인 상태 확인
+
+```bash
+cat ~/.codex/auth.json | head -10
+```
+
+`auth_mode` 가 `chatgpt` 이고 `tokens.id_token` 이 유효하면 OK. 만료됐거나 없으면 `codex login` 으로 재인증.
+
+## 참조 config 구조 예시
+
+```toml
+# 전체 홈디렉토리 trust (개발 환경에서 편함)
+[projects."/home/sinbum"]
+trust_level = "trusted"
+
+# 특정 프로젝트만 trust
+[projects."/home/sinbum/ai-workspace/dsket-webbuilder"]
+trust_level = "trusted"
+
+[projects."/home/sinbum/ai-workspace/dsket-webbuilder-be"]
+trust_level = "trusted"
+
+# UI 설정 (tui 모델 NUX 등)
+[tui.model_availability_nux]
+"gpt-5.5" = 1
+```
