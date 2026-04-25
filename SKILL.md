@@ -1,9 +1,9 @@
 ---
-name: butler-kit
+name: butler-skill-kit
 description: SSH 서버에 Claude Code / Codex CLI / tmux 기반 에이전트 운용 원시 요소를 배포·관리. trust 다이얼로그 자동 승인, codex sandbox trust_level 설정, tmux 세션 idempotent 기동, claude↔codex handoff, @reboot cron, 로그 경로 fallback 포함. agent-factory 스킬의 하위 레이어.
 ---
 
-# butler-kit — 원격 에이전트 운용 키트
+# butler-skill-kit — 원격 에이전트 운용 키트
 
 ## 무엇
 

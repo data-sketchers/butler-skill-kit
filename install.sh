@@ -1,5 +1,5 @@
 #!/bin/bash
-# butler-kit installer — 로컬에서 리모트 SSH 서버로 kit 배포.
+# butler-skill-kit installer — 로컬에서 리모트 SSH 서버로 kit 배포.
 # 기본 dry-run. --apply 있어야 실배포.
 #
 # 사용:
