@@ -185,16 +185,29 @@ See [`docs/pain-fixes.md`](docs/pain-fixes.md) for full detail and reproduction 
 ## Architecture
 
 ```
-        ~/bin/                          ~/.butler-kit/
-        ├── kit-bootstrap.sh             ├── docs/
-        ├── kit-session-ensure.sh        │   ├── pain-fixes.md
-        ├── kit-claude-session.sh        │   ├── codex-sandbox.md
-        ├── kit-codex-session.sh         │   └── session-lifecycle.md
-        ├── kit-handoff.sh               └── templates/
-        ├── kit-cron-register.sh             ├── start-claude.sh.tpl
-        └── kit-log-dir.sh                   ├── start-codex.sh.tpl
-                                             └── agent-state.md.tpl
+        ~/bin/                              ~/.butler-kit/
+        ├── kit-bootstrap.sh                 ├── docs/
+        ├── kit-session-ensure.sh            │   ├── pain-fixes.md
+        ├── kit-claude-session.sh            │   ├── codex-sandbox.md
+        ├── kit-codex-session.sh             │   └── session-lifecycle.md
+        ├── kit-opencode-session.sh          ├── templates/
+        ├── kit-omx-session.sh               │   ├── start-claude.sh.tpl
+        ├── kit-handoff.sh                   │   ├── start-codex.sh.tpl
+        ├── kit-cron-register.sh             │   └── agent-state.md.tpl
+        ├── kit-install-skill.sh             └── skills.yaml
+        └── kit-log-dir.sh
 ```
+
+`kit-session-ensure.sh` dispatches to the right per-CLI wrapper:
+
+| Model | Wrapper | Notes |
+|-------|---------|-------|
+| `claude` | `kit-claude-session.sh` | Auto-confirms first-run trust dialog |
+| `codex` | `kit-codex-session.sh` | Auto-adds `trust_level = "trusted"` per worktree |
+| `opencode` | `kit-opencode-session.sh` | TUI; supports `--model provider/model` and `-c` continue |
+| `omx` | `kit-omx-session.sh` | oh-my-codex; uses `--direct` to skip OMX's own tmux/HUD; `--high/--xhigh/--yolo/--madmax/--spark` flags supported |
+
+You can mix models in one worktree — e.g. claude + opencode + codex + omx all sharing the same `.agent-state.md`. Tested in production with 8 concurrent sessions across two physical hosts.
 
 Every script is **idempotent**. Run them a hundred times — same outcome, no side effects.
 
