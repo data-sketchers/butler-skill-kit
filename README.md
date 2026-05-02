@@ -56,11 +56,7 @@ The same is true for Codex CLI. The same is true for any single-CLI agent setup.
 
 A pair of CLI sessions — one Claude, one Codex — sharing the same git worktree, with a clean handoff protocol when either hits a wall.
 
-```
-Claude (primary) ─────  hits rate limit ──┐
-                                          │  kit-handoff.sh be claude-to-codex
-Codex (standby) ── reads .agent-state.md ─┘  picks up exactly where Claude stopped
-```
+![Pair failover flow](assets/diagrams/01-failover-en.png)
 
 When Claude comes back online, run the reverse handoff. Codex commits state, Claude resumes.
 
@@ -200,6 +196,8 @@ See [`docs/pain-fixes.md`](docs/pain-fixes.md) for full detail and reproduction 
 
 `kit-session-ensure.sh` dispatches to the right per-CLI wrapper:
 
+![4-way model dispatcher](assets/diagrams/02-dispatcher-en.png)
+
 | Model | Wrapper | Notes |
 |-------|---------|-------|
 | `claude` | `kit-claude-session.sh` | Auto-confirms first-run trust dialog |
@@ -208,6 +206,10 @@ See [`docs/pain-fixes.md`](docs/pain-fixes.md) for full detail and reproduction 
 | `omx` | `kit-omx-session.sh` | oh-my-codex; uses `--direct` to skip OMX's own tmux/HUD; `--high/--xhigh/--yolo/--madmax/--spark` flags supported |
 
 You can mix models in one worktree — e.g. claude + opencode + codex + omx all sharing the same `.agent-state.md`. Tested in production with 8 concurrent sessions across two physical hosts.
+
+![Single-host ecosystem](assets/diagrams/03-ecosystem-en.png)
+
+The whole stack lives inside one user account on one physical host: tmux session pool on the left (product team / builder pair / biz-plan / scale-out slot), shared kit binaries and cron resilience on the right, with cloudflared / git / Telegram MCP / webhooks reaching in from outside.
 
 Every script is **idempotent**. Run them a hundred times — same outcome, no side effects.
 

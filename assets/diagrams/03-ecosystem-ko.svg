@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720">
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1f2937" stroke-width="0.5"/>
+    </pattern>
+    <marker id="arr-gold" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#D4A574"/>
+    </marker>
+    <marker id="arr-teal" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#0D9488"/>
+    </marker>
+    <style>
+      text { font-family: 'Pretendard', 'Apple SD Gothic Neo', system-ui, sans-serif; }
+      .mono { font-family: 'JetBrains Mono', 'SF Mono', 'Menlo', monospace; }
+    </style>
+  </defs>
+
+  <rect width="1280" height="720" fill="#0B1220"/>
+  <rect width="1280" height="720" fill="url(#grid)"/>
+
+  <text x="640" y="48" fill="#D4A574" font-size="13" font-weight="700" letter-spacing="3" text-anchor="middle">BUTLER-SKILL-KIT</text>
+  <text x="640" y="80" fill="#f1f5f9" font-size="26" font-weight="700" text-anchor="middle">단일 호스트 생태계</text>
+  <text x="640" y="105" fill="#94a3b8" font-size="12" text-anchor="middle">여러 에이전트 팀 · 공유 키트 · cron 회복력 · 외부 SSH 접근</text>
+
+  <!-- Outer host boundary -->
+  <rect x="40" y="135" width="1200" height="490" rx="14" fill="none" stroke="#D4A574" stroke-width="1.5" stroke-dasharray="10,5"/>
+  <text x="60" y="155" fill="#D4A574" font-size="11" font-weight="700" letter-spacing="2">물리 호스트 · 1 사용자 계정</text>
+  <text x="1220" y="155" fill="#94a3b8" font-size="9" text-anchor="end" class="mono">예: Linux/WSL2 · Mac mini · 클라우드 VM</text>
+
+  <!-- tmux session pool -->
+  <rect x="70" y="180" width="540" height="350" rx="10" fill="rgba(13,148,136,0.10)" stroke="#0D9488" stroke-width="1.5"/>
+  <text x="90" y="205" fill="#5EEAD4" font-size="11" font-weight="700" letter-spacing="2">TMUX 세션 풀</text>
+
+  <!-- product team -->
+  <rect x="90" y="225" width="240" height="135" rx="8" fill="rgba(15,23,42,0.6)" stroke="#475569" stroke-width="1"/>
+  <text x="100" y="245" fill="#94a3b8" font-size="9" font-weight="700" letter-spacing="1">제품 팀 (5)</text>
+  <rect x="100" y="255" width="100" height="22" rx="3" fill="rgba(245,158,11,0.2)" stroke="#F59E0B" stroke-width="1"/>
+  <text x="150" y="270" fill="#fbbf24" font-size="9" text-anchor="middle" class="mono">pm-agent</text>
+  <rect x="210" y="255" width="100" height="22" rx="3" fill="rgba(245,158,11,0.2)" stroke="#F59E0B" stroke-width="1"/>
+  <text x="260" y="270" fill="#fbbf24" font-size="9" text-anchor="middle" class="mono">be-agent</text>
+  <rect x="100" y="285" width="100" height="22" rx="3" fill="rgba(245,158,11,0.2)" stroke="#F59E0B" stroke-width="1"/>
+  <text x="150" y="300" fill="#fbbf24" font-size="9" text-anchor="middle" class="mono">fe-agent</text>
+  <rect x="210" y="285" width="100" height="22" rx="3" fill="rgba(245,158,11,0.2)" stroke="#F59E0B" stroke-width="1"/>
+  <text x="260" y="300" fill="#fbbf24" font-size="9" text-anchor="middle" class="mono">qa-agent</text>
+  <rect x="100" y="315" width="210" height="22" rx="3" fill="rgba(245,158,11,0.2)" stroke="#F59E0B" stroke-width="1"/>
+  <text x="205" y="330" fill="#fbbf24" font-size="9" text-anchor="middle" class="mono">fullstack-agent</text>
+  <text x="100" y="350" fill="#64748b" font-size="8">PM 이 send-keys 로 워커 세션 오케스트레이션</text>
+
+  <!-- builder team -->
+  <rect x="350" y="225" width="240" height="135" rx="8" fill="rgba(15,23,42,0.6)" stroke="#475569" stroke-width="1"/>
+  <text x="360" y="245" fill="#94a3b8" font-size="9" font-weight="700" letter-spacing="1">BUILDER 팀 (페어)</text>
+  <rect x="360" y="255" width="220" height="22" rx="3" fill="rgba(245,158,11,0.2)" stroke="#F59E0B" stroke-width="1"/>
+  <text x="470" y="270" fill="#fbbf24" font-size="9" text-anchor="middle" class="mono">builder-be-claude  (메인)</text>
+  <rect x="360" y="285" width="220" height="22" rx="3" fill="rgba(59,130,246,0.2)" stroke="#3B82F6" stroke-width="1"/>
+  <text x="470" y="300" fill="#60a5fa" font-size="9" text-anchor="middle" class="mono">builder-be-codex  (대기)</text>
+  <text x="470" y="325" fill="#5EEAD4" font-size="8" text-anchor="middle">워크트리 + .agent-state.md 공유</text>
+  <text x="360" y="350" fill="#64748b" font-size="8">Phase 2/3: -fe / -infra / -qa 페어 추가</text>
+
+  <!-- biz-plan -->
+  <rect x="90" y="380" width="240" height="130" rx="8" fill="rgba(15,23,42,0.6)" stroke="#475569" stroke-width="1"/>
+  <text x="100" y="400" fill="#94a3b8" font-size="9" font-weight="700" letter-spacing="1">BIZ-PLAN (2)</text>
+  <rect x="100" y="410" width="100" height="22" rx="3" fill="rgba(139,92,246,0.2)" stroke="#8B5CF6" stroke-width="1"/>
+  <text x="150" y="425" fill="#a78bfa" font-size="9" text-anchor="middle" class="mono">biz-plan</text>
+  <rect x="210" y="410" width="100" height="22" rx="3" fill="rgba(139,92,246,0.2)" stroke="#8B5CF6" stroke-width="1"/>
+  <text x="260" y="425" fill="#a78bfa" font-size="9" text-anchor="middle" class="mono">biz-plan-spare</text>
+  <text x="200" y="455" fill="#64748b" font-size="8" text-anchor="middle">병렬 제안서 작성</text>
+  <text x="200" y="475" fill="#64748b" font-size="8" text-anchor="middle">메인 + 예비 회복력 구조</text>
+
+  <!-- Free workers -->
+  <rect x="350" y="380" width="240" height="130" rx="8" fill="rgba(15,23,42,0.4)" stroke="#475569" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="360" y="400" fill="#94a3b8" font-size="9" font-weight="700" letter-spacing="1">확장 슬롯 (사용 가능)</text>
+  <text x="470" y="430" fill="#64748b" font-size="9" text-anchor="middle">research-omx</text>
+  <text x="470" y="445" fill="#64748b" font-size="9" text-anchor="middle">opencode 워커</text>
+  <text x="470" y="460" fill="#64748b" font-size="9" text-anchor="middle">N 팀의 (claude+codex) 페어</text>
+  <text x="470" y="490" fill="#64748b" font-size="8" text-anchor="middle" font-style="italic">phase rollout: 페어 검증 → 다음 추가</text>
+
+  <!-- kit binaries -->
+  <rect x="640" y="180" width="280" height="155" rx="10" fill="rgba(212,165,116,0.10)" stroke="#D4A574" stroke-width="1.5"/>
+  <text x="660" y="205" fill="#D4A574" font-size="11" font-weight="700" letter-spacing="2">~/.butler-kit/ + ~/bin/</text>
+  <text x="660" y="228" fill="#f1f5f9" font-size="11" class="mono">kit-session-ensure.sh</text>
+  <text x="660" y="244" fill="#f1f5f9" font-size="11" class="mono">kit-{claude,codex,opencode,omx}-session.sh</text>
+  <text x="660" y="260" fill="#f1f5f9" font-size="11" class="mono">kit-handoff.sh</text>
+  <text x="660" y="276" fill="#f1f5f9" font-size="11" class="mono">kit-cron-register.sh</text>
+  <text x="660" y="292" fill="#f1f5f9" font-size="11" class="mono">kit-install-skill.sh + skills.yaml</text>
+  <text x="660" y="318" fill="#94a3b8" font-size="9">모든 세션이 동일한 키트 재사용</text>
+
+  <!-- cron resilience -->
+  <rect x="950" y="180" width="270" height="155" rx="10" fill="rgba(13,148,136,0.10)" stroke="#0D9488" stroke-width="1.5"/>
+  <text x="970" y="205" fill="#5EEAD4" font-size="11" font-weight="700" letter-spacing="2">CRON 회복력</text>
+  <text x="970" y="228" fill="#f1f5f9" font-size="11" class="mono">@reboot sleep 60</text>
+  <text x="970" y="244" fill="#94a3b8" font-size="9">→ 풀 전체 재기동</text>
+  <text x="970" y="266" fill="#f1f5f9" font-size="11" class="mono">*/5 * * * * healthcheck</text>
+  <text x="970" y="282" fill="#94a3b8" font-size="9">→ 죽은 세션 5분 안에 부활</text>
+  <text x="970" y="312" fill="#94a3b8" font-size="9" font-style="italic">검증됨: 8 세션 reboot 후 자동 복원</text>
+
+  <!-- Shared files -->
+  <rect x="640" y="355" width="580" height="155" rx="10" fill="rgba(13,148,136,0.10)" stroke="#0D9488" stroke-width="1.5"/>
+  <text x="660" y="380" fill="#5EEAD4" font-size="11" font-weight="700" letter-spacing="2">공유 파일 (워크트리별)</text>
+  <text x="660" y="403" fill="#f1f5f9" font-size="11" class="mono">.agent-state.md</text>
+  <text x="660" y="418" fill="#94a3b8" font-size="9">핸드오프 프로토콜 · CLI 간 단일 source of truth</text>
+  <text x="660" y="441" fill="#f1f5f9" font-size="11" class="mono">~/.claude/skills/* (자동 로드)</text>
+  <text x="660" y="456" fill="#94a3b8" font-size="9">큐레이트 레지스트리: bge-m3, hwpxskill, mattpocock 등</text>
+  <text x="660" y="479" fill="#f1f5f9" font-size="11" class="mono">~/.logs/kit-*.log</text>
+  <text x="660" y="494" fill="#94a3b8" font-size="9">기동·핸드오프·헬스체크 감사 로그</text>
+
+  <!-- External -->
+  <rect x="40" y="555" width="1200" height="60" rx="10" fill="rgba(15,23,42,0.6)" stroke="#475569" stroke-width="1"/>
+  <text x="60" y="580" fill="#94a3b8" font-size="11" font-weight="700" letter-spacing="2">외부 연결</text>
+  <text x="200" y="582" fill="#f1f5f9" font-size="11" class="mono">cloudflared 터널</text>
+  <text x="200" y="598" fill="#94a3b8" font-size="9">Zero Trust 통한 어디서든 SSH</text>
+  <text x="500" y="582" fill="#f1f5f9" font-size="11" class="mono">git remote</text>
+  <text x="500" y="598" fill="#94a3b8" font-size="9">핸드오프 상태 push · 변경 리뷰</text>
+  <text x="800" y="582" fill="#f1f5f9" font-size="11" class="mono">텔레그램 MCP 플러그인</text>
+  <text x="800" y="598" fill="#94a3b8" font-size="9">사용자 명령 입력 · 에이전트 응답</text>
+  <text x="1080" y="582" fill="#f1f5f9" font-size="11" class="mono">webhooks</text>
+  <text x="1080" y="598" fill="#94a3b8" font-size="9">CI · 알림 · 외부 트리거</text>
+
+  <text x="640" y="685" fill="#64748b" font-size="10" text-anchor="middle">동시 8 세션 · 1 사용자 계정 · 1 키트 · 30000 dev 서버(Linux) 와 Mac mini 양쪽 실증</text>
+</svg>
