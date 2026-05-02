@@ -141,16 +141,25 @@ install_zip_release() {
 
 install_pip() {
   local pkg="$1"
+  # pipx 우선 — PEP 668 (Debian/Homebrew) 환경에서 system Python 보호.
+  if command -v pipx >/dev/null 2>&1; then
+    echo "  ⬇ pipx install $pkg"
+    pipx install "$pkg" || pipx upgrade "${pkg%%[*}"
+    return $?
+  fi
   if command -v pip3 >/dev/null 2>&1; then
     PIP=pip3
   elif command -v pip >/dev/null 2>&1; then
     PIP=pip
   else
-    echo "  ❌ pip 필요. 설치: python3 -m ensurepip"
+    echo "  ❌ pip/pipx 필요. 설치: python3 -m ensurepip 또는 brew install pipx / sudo apt install pipx"
     return 1
   fi
-  echo "  ⬇ $PIP install -U $pkg"
-  $PIP install -U "$pkg"
+  echo "  ⬇ $PIP install -U --user $pkg"
+  $PIP install -U --user "$pkg" || {
+    echo "  ↻ retry with --break-system-packages (PEP 668 우회)"
+    $PIP install -U --break-system-packages "$pkg"
+  }
 }
 
 install_one() {

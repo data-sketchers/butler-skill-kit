@@ -15,11 +15,13 @@ skills:
     repo: Cocoon-AI/architecture-diagram-generator
     description: Generate dark-themed system architecture diagrams as standalone HTML/SVG. Claude AI Skill.
     license: MIT
-    install_method: zip-release
-    asset_pattern: architecture-diagram*.zip
-    target_dir: ~/.claude/plugins/data/architecture-diagram-generator
+    install_method: clone
+    target_dir: ~/.claude/skills/architecture-diagram-generator
     homepage: https://github.com/Cocoon-AI/architecture-diagram-generator
-    notes: Requires Claude Pro/Max/Team/Enterprise to use as a Claude.ai skill. The zip is also usable manually.
+    notes: |
+      Repo includes both unpacked skill (architecture-diagram/) and a packaged zip (architecture-diagram.zip).
+      To use as a Claude.ai skill: upload architecture-diagram.zip via Settings → Capabilities → Skills.
+      Requires Claude Pro/Max/Team/Enterprise plan.
 
   - name: korean-privacy-terms
     repo: kimlawtech/korean-privacy-terms
