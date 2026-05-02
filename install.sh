@@ -60,6 +60,9 @@ echo
 echo "문서 (리모트 ~/.butler-kit/docs/ 에 복사):"
 for f in docs/*; do echo "  $(basename $f)"; done
 echo
+echo "스킬 레지스트리 (리모트 ~/.butler-kit/skills.yaml 에 복사):"
+[ -f "$SCRIPT_DIR/skills.yaml" ] && echo "  skills.yaml" || echo "  (없음)"
+echo
 
 if [ $APPLY -eq 0 ]; then
   echo "(dry-run — 실배포는 --apply 추가)"
@@ -77,6 +80,12 @@ done
 scp $SCP_OPTS $SCRIPT_DIR/templates/* "$HOST:~/.butler-kit/templates/"
 scp $SCP_OPTS $SCRIPT_DIR/docs/*       "$HOST:~/.butler-kit/docs/"
 
+# 스킬 레지스트리 — kit-install-skill.sh 가 ~/.butler-kit/skills.yaml 을 fallback 으로 읽음
+if [ -f "$SCRIPT_DIR/skills.yaml" ]; then
+  scp $SCP_OPTS "$SCRIPT_DIR/skills.yaml" "$HOST:~/.butler-kit/skills.yaml"
+fi
+
 echo "완료. 리모트에서 다음 확인:"
 echo "  ls ~/bin/kit-*.sh"
 echo "  ls ~/.butler-kit/"
+echo "  ~/bin/kit-install-skill.sh --list"

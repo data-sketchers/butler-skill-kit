@@ -1,0 +1,62 @@
+# butler-skill-kit — Recommended Skills Registry
+# kit-install-skill.sh <name> — install one
+# kit-install-skill.sh --all — install all
+# kit-list-skills.sh — show registry + install state
+#
+# install_method:
+#   clone           — git clone into target_dir, pull --ff-only on update
+#   zip-release     — fetch latest GitHub release asset (zip), extract to target_dir
+#   pip             — pip install <pkg> (system or venv)
+#   npm             — npm install -g <pkg>
+#   reference       — clone into reference dir (read-only docs/examples)
+
+skills:
+  - name: architecture-diagram-generator
+    repo: Cocoon-AI/architecture-diagram-generator
+    description: Generate dark-themed system architecture diagrams as standalone HTML/SVG. Claude AI Skill.
+    license: MIT
+    install_method: zip-release
+    asset_pattern: architecture-diagram*.zip
+    target_dir: ~/.claude/plugins/data/architecture-diagram-generator
+    homepage: https://github.com/Cocoon-AI/architecture-diagram-generator
+    notes: Requires Claude Pro/Max/Team/Enterprise to use as a Claude.ai skill. The zip is also usable manually.
+
+  - name: korean-privacy-terms
+    repo: kimlawtech/korean-privacy-terms
+    description: 한국 개인정보보호법(PIPA 2026.3 개정)·약관규제법·GDPR·CCPA 반영 개인정보처리방침·이용약관 자동 생성.
+    license: MIT
+    install_method: clone
+    target_dir: ~/.claude/skills/korean-privacy-terms
+    homepage: https://github.com/kimlawtech/korean-privacy-terms
+
+  - name: hwpxskill
+    repo: Canine89/hwpxskill
+    description: HWPX 문서를 XML 직접 다뤄 서식 유지 채 내용 치환. python-hwpx 대체. Claude Code·Cursor·Codex 동작.
+    license: MIT
+    install_method: clone
+    target_dir: ~/.claude/skills/hwpxskill
+    homepage: https://github.com/Canine89/hwpxskill
+
+  - name: mattpocock-skills
+    repo: mattpocock/skills
+    description: TypeScript 인플루언서 Matt Pocock 의 .claude 디렉터리. /tdd /diagnose /grill-me 등 composable skill 모음.
+    license: MIT
+    install_method: clone
+    target_dir: ~/.claude/skills/mattpocock-skills
+    homepage: https://github.com/mattpocock/skills
+
+  - name: markitdown
+    repo: microsoft/markitdown
+    description: 모든 파일(PDF, PowerPoint, Word, Excel, Image, Audio, HTML, CSV, JSON, ZIP, YouTube URL, EPub) → Markdown 변환. LLM/RAG 파이프라인 표준.
+    license: MIT
+    install_method: pip
+    pip_pkg: "markitdown[all]"
+    homepage: https://github.com/microsoft/markitdown
+
+  - name: anthropic-cookbook
+    repo: anthropics/anthropic-cookbook
+    description: Anthropic 공식 Claude API 사용 패턴·예제 모음. Tool use, multi-modal, agentic workflows 등.
+    license: MIT
+    install_method: reference
+    target_dir: ~/.claude/references/anthropic-cookbook
+    homepage: https://github.com/anthropics/anthropic-cookbook

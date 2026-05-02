@@ -231,6 +231,38 @@ You don't need the pair pattern to benefit. Useful even with one Claude:
 
 ---
 
+## Recommended Skills (`kit-install-skill.sh`)
+
+butler-skill-kit ships a curated registry of community + official skills that pair well with Claude Code / Codex CLI workflows.
+
+```bash
+~/bin/kit-install-skill.sh --list                      # see what's registered
+~/bin/kit-install-skill.sh architecture-diagram-generator  # install one
+~/bin/kit-install-skill.sh --all                       # install all registered
+~/bin/kit-install-skill.sh markitdown --update         # refresh existing install
+```
+
+Currently registered (`skills.yaml`):
+
+| Skill | Source | What it does |
+|-------|--------|--------------|
+| `architecture-diagram-generator` | [Cocoon-AI](https://github.com/Cocoon-AI/architecture-diagram-generator) | Dark-themed system architecture diagrams as standalone HTML/SVG (Claude AI Skill) |
+| `korean-privacy-terms` | [kimlawtech](https://github.com/kimlawtech/korean-privacy-terms) | 🇰🇷 Generate PIPA / GDPR / CCPA-compliant privacy policies & terms |
+| `hwpxskill` | [Canine89](https://github.com/Canine89/hwpxskill) | 🇰🇷 Edit HWPX (Korean office) docs preserving formatting |
+| `mattpocock-skills` | [mattpocock](https://github.com/mattpocock/skills) | TS influencer Matt Pocock's `.claude/` — `/tdd`, `/diagnose`, `/grill-me` etc. |
+| `markitdown` | [microsoft/markitdown](https://github.com/microsoft/markitdown) | Convert PDF / Office / Image / Audio / HTML / etc. → Markdown for LLM/RAG |
+| `anthropic-cookbook` | [anthropics](https://github.com/anthropics/anthropic-cookbook) | Official Anthropic Claude API patterns and examples |
+
+Install methods supported:
+- `clone` — `git clone` into `~/.claude/skills/<name>` (or `~/.claude/references/` for `reference`)
+- `zip-release` — `gh release download` latest asset, extract to target
+- `pip` — `pip install -U <pkg>` (Python tools)
+- `npm` — `npm install -g <pkg>` (Node tools)
+
+To suggest a skill for inclusion, open a PR adding an entry to [`skills.yaml`](skills.yaml).
+
+---
+
 ## What's not here
 
 We deliberately stay narrow:
