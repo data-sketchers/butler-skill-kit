@@ -71,6 +71,21 @@ cat <workdir>/.agent-state.md  # 작업 상태
 tail ~/.logs/kit-*.log         # 이벤트 로그
 ```
 
+## 안전한 Codex 프롬프트 제출
+
+Codex tmux/no-alt-screen 세션에는 raw `tmux send-keys` 대신 submit helper를 사용한다.
+
+```bash
+printf '%s' "$PROMPT" | kit-codex-tmux-submit.sh <session>
+```
+
+원칙:
+- pane이 실제 `Working`/compacting이면 interrupt하지 않고 skip
+- stale `Working` 아래 새 `›` prompt가 있으면 idle로 판정 가능
+- approval/permission prompt는 broad auto-approve하지 않음
+- 기본 제안(`/review`, `Write tests for @filename` 등)은 submit 전에 clear
+- PM cron/tick 류 스크립트는 helper 실패 시 blind fallback 금지
+
 ## 핵심 원칙
 
 1. **Idempotent**: 모든 기동 스크립트는 "이미 있으면 skip". 100번 돌려도 1번과 같음.

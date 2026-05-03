@@ -1,16 +1,20 @@
 #!/bin/bash
-# kit-codex-session.sh — tmux + Codex CLI 세션 기동.
-# trust 다이얼로그 자동 승인 + ~/.codex/config.toml 에 trust_level 자동 추가.
+# kit-codex-session.sh — tmux + Codex CLI session ensure.
 #
-# 사용:
+# Usage:
 #   kit-codex-session.sh <session_name> <workdir> [--resume]
 #
-# 동작:
-#   1. workdir 을 ~/.codex/config.toml 의 [projects."<workdir>"] trust_level="trusted" 로 등록 (없으면)
-#   2. 세션 이미 있으면 skip
-#   3. tmux new-session 후 trust 다이얼로그 자동 승인
+# Environment:
+#   CODEX_MODEL / DSKET_CODEX_MODEL / KIT_CODEX_MODEL  model name, default gpt-5.3-codex
+#   KIT_CODEX_BYPASS_APPROVALS=1                       add --dangerously-bypass-approvals-and-sandbox
+#   KIT_CODEX_NO_ALT_SCREEN=1                          add --no-alt-screen, default 1
+#   KIT_CODEX_EXTRA_ARGS="..."                         extra args appended after standard args
 #
-# 의존: codex CLI, tmux, kit-log-dir.sh
+# Behavior:
+#   1. Add workdir to ~/.codex/config.toml as trusted (idempotent)
+#   2. Skip if tmux session already exists
+#   3. Start Codex with explicit model and -C <workdir>
+#   4. If --resume was requested, try `codex --model <model> resume --last ...`; fallback to fresh codex
 
 set -uo pipefail
 
@@ -24,49 +28,65 @@ mkdir -p "$(dirname "$LOG")"
 
 SESSION="${1:-}"
 WORKDIR="${2:-}"
-RESUME_FLAG=""
-[ "${3:-}" = "--resume" ] && RESUME_FLAG="resume --last"
+RESUME=""
+[ "${3:-}" = "--resume" ] && RESUME="1"
+CODEX_MODEL="${CODEX_MODEL:-${KIT_CODEX_MODEL:-${DSKET_CODEX_MODEL:-gpt-5.3-codex}}}"
+NO_ALT_SCREEN="${KIT_CODEX_NO_ALT_SCREEN:-1}"
+BYPASS="${KIT_CODEX_BYPASS_APPROVALS:-1}"
+EXTRA_ARGS="${KIT_CODEX_EXTRA_ARGS:-}"
 
 if [ -z "$SESSION" ] || [ -z "$WORKDIR" ]; then
-  echo "사용: $0 <session_name> <workdir> [--resume]"
+  echo "Usage: $0 <session_name> <workdir> [--resume]" >&2
   exit 1
 fi
 
 if [ ! -d "$WORKDIR" ]; then
-  echo "workdir 없음: $WORKDIR" >&2
+  echo "workdir missing: $WORKDIR" >&2
   exit 1
 fi
 
-# 1. Codex config 에 trust 추가 (멱등)
 CONFIG="$HOME/.codex/config.toml"
 mkdir -p "$(dirname "$CONFIG")"
 touch "$CONFIG"
 ABSWORKDIR="$(cd "$WORKDIR" && pwd)"
-if ! grep -q "\"$ABSWORKDIR\"" "$CONFIG"; then
+if ! grep -Fq "\"$ABSWORKDIR\"" "$CONFIG"; then
   {
     echo ""
     echo "[projects.\"$ABSWORKDIR\"]"
     echo 'trust_level = "trusted"'
   } >> "$CONFIG"
-  echo "[$(date '+%F %T')] codex config trust 추가: $ABSWORKDIR" >> "$LOG"
+  echo "[$(date '+%F %T')] codex config trust added: $ABSWORKDIR" >> "$LOG"
 fi
 
 if tmux has-session -t "$SESSION" 2>/dev/null; then
-  echo "[$(date '+%F %T')] $SESSION 이미 존재 — skip" >> "$LOG"
+  echo "[$(date '+%F %T')] $SESSION exists — skip" >> "$LOG"
   exit 0
 fi
 
-# Codex 실행 — resume 가능하면 시도, 실패시 fresh
-if [ -n "$RESUME_FLAG" ]; then
-  CMD="export PATH=\$HOME/.bun/bin:\$PATH && (codex $RESUME_FLAG 2>/dev/null || codex)"
-else
-  CMD="export PATH=\$HOME/.bun/bin:\$PATH && codex"
+COMMON_ARGS=(--model "$CODEX_MODEL")
+if [ "$BYPASS" = "1" ]; then
+  COMMON_ARGS+=(--dangerously-bypass-approvals-and-sandbox)
+fi
+COMMON_ARGS+=(-C "$ABSWORKDIR")
+if [ "$NO_ALT_SCREEN" = "1" ]; then
+  COMMON_ARGS+=(--no-alt-screen)
 fi
 
-tmux new-session -d -s "$SESSION" -c "$WORKDIR" "$CMD"
-echo "[$(date '+%F %T')] START $SESSION (workdir=$WORKDIR resume=${RESUME_FLAG:-none})" >> "$LOG"
+# shell-escape arg array into command string for tmux.
+printf -v COMMON_Q ' %q' "${COMMON_ARGS[@]}"
+if [ -n "$EXTRA_ARGS" ]; then
+  COMMON_Q="$COMMON_Q $EXTRA_ARGS"
+fi
 
-# trust 다이얼로그 자동 승인 (Codex 도 같은 패턴)
+if [ -n "$RESUME" ]; then
+  CMD="export PATH=\$HOME/.bun/bin:\$PATH; codex$COMMON_Q resume --last 2>/dev/null || exec codex$COMMON_Q"
+else
+  CMD="export PATH=\$HOME/.bun/bin:\$PATH; exec codex$COMMON_Q"
+fi
+
+tmux new-session -d -s "$SESSION" -c "$ABSWORKDIR" "$CMD"
+echo "[$(date '+%F %T')] START $SESSION (workdir=$ABSWORKDIR resume=${RESUME:-0} model=$CODEX_MODEL bypass=$BYPASS no_alt_screen=$NO_ALT_SCREEN)" >> "$LOG"
+
 sleep 5
 PANE="$(tmux capture-pane -t "$SESSION" -p 2>/dev/null || echo "")"
 if echo "$PANE" | grep -qE "trust.*contents|Do you trust"; then

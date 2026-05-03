@@ -35,17 +35,23 @@ trust_level = "trusted"
 - Claude: `$HOME/.claude/projects/<hash>` 디렉토리 존재 여부로 감지. 없으면 `-c` 생략.
 - Codex: `if codex resume --last; then :; else exec codex; fi` fallback.
 
-## 5. Tmux send-keys paste-mode 이슈
+## 5. Tmux/Codex paste-mode 및 stale prompt 이슈
 
-**증상**: 멀티라인 프롬프트 send-keys 할 때 Claude Code 가 paste 로 인식해서 첫 Enter 가 개행으로 처리됨 → submit 안 됨.
+**증상**: 멀티라인 프롬프트를 raw `tmux send-keys`로 넣으면 Codex/Claude TUI가 paste/input 편집 상태로 남고 첫 Enter가 실제 submit이 아니라 입력 버퍼 accept로 처리될 수 있음. 또한 Codex는 `Working (...)` 라인을 stale로 남긴 채 새 `›` prompt를 보여 active 오탐을 일으킬 수 있고, `Write tests for @filename`, `/review` 같은 기본 제안이 나중에 실수로 submit될 수 있음.
 
-**해결**: 메시지 + Enter 후 1초 기다렸다가 추가 Enter 한 번 더 전송.
+**해결**: Codex에는 raw paste 대신 generic helper를 사용.
 
 ```bash
-tmux send-keys -t "$SESSION" "$MSG" Enter
-sleep 1
-tmux send-keys -t "$SESSION" Enter
+printf '%s' "$PROMPT" | kit-codex-tmux-submit.sh <session> [buffer-name]
 ```
+
+helper 동작:
+- stale idle input을 `C-u`로 지움
+- tmux buffer로 paste
+- Enter 두 번 + 필요 시 final Enter
+- 현재 active/compacting pane이면 skip
+- approval/permission prompt이면 broad auto-approve하지 않고 skip
+- stale `Working`은 prompt line parser로 구분
 
 ## 6. git worktree 중복 생성 에러
 

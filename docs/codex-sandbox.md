@@ -19,7 +19,18 @@ trust_level = "trusted"
 
 ## butler-kit 자동 등록
 
-`kit-codex-session.sh` 가 세션 기동 전 해당 워크트리 trust 를 자동 추가 (멱등).
+`kit-codex-session.sh` 가 세션 기동 전 해당 워크트리 trust 를 자동 추가 (멱등). 현재 Codex CLI 정책에 맞춰 explicit model, `-C <workdir>`, `--no-alt-screen`, 그리고 선택적/기본 approval bypass를 사용한다.
+
+```bash
+CODEX_MODEL=gpt-5.3-codex kit-codex-session.sh builder-fe-codex /path/to/workdir --resume
+KIT_CODEX_BYPASS_APPROVALS=1 KIT_CODEX_NO_ALT_SCREEN=1 kit-codex-session.sh builder-qa-codex /path/to/workdir
+```
+
+환경 변수:
+- `CODEX_MODEL` / `KIT_CODEX_MODEL` / `DSKET_CODEX_MODEL`: 모델명, 기본 `gpt-5.3-codex`
+- `KIT_CODEX_BYPASS_APPROVALS=1`: `--dangerously-bypass-approvals-and-sandbox` 추가
+- `KIT_CODEX_NO_ALT_SCREEN=1`: `--no-alt-screen` 추가
+- `KIT_CODEX_EXTRA_ARGS`: 추가 인자
 
 ## 세션 적용 시점 주의
 
